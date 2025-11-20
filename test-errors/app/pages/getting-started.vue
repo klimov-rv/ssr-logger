@@ -37,4 +37,4 @@
   </section>
 </template>
 
-<style></style>
+<style lang="scss"></style>
