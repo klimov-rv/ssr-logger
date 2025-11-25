@@ -28,9 +28,9 @@ export default defineNuxtPlugin({
     if (process.client) {
       initializeTheme();
       const currentTheme = getTheme();
-      
-      // Можно добавить логирование текущей темы если нужно:
-      // console.log('Loaded theme from localStorage:', currentTheme);
+
+      // Логирование текущей темы если нужно:
+      console.log('Loaded theme from localStorage:', currentTheme);
     }
   },
 });

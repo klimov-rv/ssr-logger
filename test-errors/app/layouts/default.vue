@@ -76,7 +76,7 @@ import ThemeSwitcher from '../components/ThemeSwitcher.vue';
 }
 
 /* Переменные для тёмной темы */
-[data-theme="dark"] {
+[data-theme='dark'] {
   --bg-primary: #1a1a1a;
   --bg-secondary: #2a2a2a;
   --text-primary: #ffffff;

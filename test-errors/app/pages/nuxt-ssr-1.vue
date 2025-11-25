@@ -1,4 +1,7 @@
 <script setup lang="">
+definePageMeta({
+  layout: 'custom',
+});
 import markdownit from 'markdown-it';
 
 const md = markdownit();

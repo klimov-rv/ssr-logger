@@ -2,6 +2,9 @@
 import { ref } from 'vue';
 import { getTheme, toggleTheme } from '../../utils/theme';
 
+definePageMeta({
+  layout: 'default',
+});
 const currentTheme = ref(getTheme());
 
 const handleThemeToggle = () => {
