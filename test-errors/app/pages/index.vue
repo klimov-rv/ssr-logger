@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { getTheme, toggleTheme } from '../../utils/theme';
+import { navLinks } from '../../data/navigationLinks';
 
 definePageMeta({
   layout: 'default',
@@ -11,6 +12,10 @@ const handleThemeToggle = () => {
   const newTheme = toggleTheme();
   currentTheme.value = newTheme;
 };
+
+const handleNavigate = (route: string) => {
+  navigateTo(route);
+};
 </script>
 
 <template>
@@ -20,14 +25,14 @@ const handleThemeToggle = () => {
     <section class="section">
       <h2>🎯 Навигация</h2>
       <ul class="custom-list">
-        <li class="item" @click="navigateTo('/nuxt-ssr-1')">
-          <h3 class="item-title">Порядок выполнения кода в Nuxt 3</h3>
-          <p class="item-description">
-            Посмотрите логи в консоли для понимания порядка выполнения
-          </p>
-        </li>
-        <li class="item" @click="navigateTo('/test')">
-          <h3 class="item-title">Тестовая страница</h3>
+        <li
+          v-for="link in navLinks"
+          :key="link.route"
+          class="item"
+          @click="handleNavigate(link.route)"
+        >
+          <h3 class="item-title">{{ link.icon }} {{ link.title }}</h3>
+          <p class="item-description">{{ link.description }}</p>
         </li>
       </ul>
     </section>
