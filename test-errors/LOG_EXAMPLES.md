@@ -2,7 +2,7 @@
 
 ### На сервере (синий):
 
-```
+```console
 1. Server middleware
 /server/middleware/logger.ts
 [21 ноября 2025, 15:52, timer - 00:00:150]
@@ -18,7 +18,7 @@
 
 ### На клиенте (зелёный, компактная строка):
 
-```
+```console
 1. Server middleware  /server/middleware/logger.ts  [21 ноября 2025, 15:52, timer - 00:00:150]
 2. Plugin setup  /app/plugins/theme.ts  [21 ноября 2025, 15:52, timer - 00:02:340]
 3. Client middleware  /app/middleware/theme.global.ts  [21 ноября 2025, 15:52, timer - 00:05:120]
