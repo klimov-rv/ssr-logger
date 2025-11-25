@@ -13,14 +13,11 @@ export default defineNuxtPlugin({
 
     // @ts-ignore
     const isServer = process.server;
-    const timerStart = getTimerStart(TIMER_KEY);
 
-    createLogger({
-      module: '2. Plugin setup',
+    createLogger('2. Plugin setup', {
+      executionEnv: isServer ? 'server' : 'client',
       filePath: import.meta.url,
-      timestamp: new Date(),
-      startTime: timerStart,
-      isServer: isServer,
+      componentStack: [],
     });
 
     // На клиенте инициализируем тему и восстанавливаем её из localStorage

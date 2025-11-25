@@ -3,12 +3,11 @@
  * На сервере выводит синие логи, на клиенте - зелёные
  */
 
-interface LogEntry {
-  module: string;
+interface LogContext {
+  timestamp?: string;
+  executionEnv: 'server' | 'client';
   filePath: string;
-  timestamp: Date;
-  startTime?: Date;
-  isServer: boolean;
+  componentStack: string[];
 }
 
 // Глобальная переменная для отслеживания времени старта приложения
@@ -39,27 +38,42 @@ function initializeAppStartTime(): Date {
  * Основная функция логирования
  * @param config - Конфигурация логирования
  */
-export function createLogger(config: LogEntry) {
-  // @ts-ignore - process доступен в Nuxt
+/**
+ * Simplified logger signature:
+ * createLogger(moduleName, filePath, context)
+ * - moduleName: human-friendly stage label (e.g. "1. Server middleware")
+ * - context: LogContext (timestamp optional - will be generated if not provided)
+ */
+export function createLogger(
+  moduleName: string,
+  context?: Partial<LogContext>,
+) {
+  // determine runtime
+  // @ts-ignore - process available in Nuxt runtime
   const isServer = typeof process !== 'undefined' && !process.client;
-  const now = new Date();
-  const cleanPath = getCleanPath(config.filePath);
-  const formattedDate = formatDate(now);
-  const elapsedTime = calculateElapsedTime();
 
+  const now = new Date();
+  const cleanPath = getCleanPath(context.filePath);
+
+  // timestamp string in Russian format (no seconds) unless provided
+  const formattedDate =
+    context && context.timestamp ? context.timestamp : formatDate(now);
+  const elapsedTime = calculateElapsedTime();
   const timestamp = `[${formattedDate}, timer - ${elapsedTime}]`;
 
   if (isServer) {
-    // Синий цвет для сервера (ANSI escape code)
+    // server: print module, path and timestamp (colored)
     const moduleLog = `\x1b[34m%s\x1b[0m`;
-    const pathLog = `\x1b[36m%s\x1b[0m`; // Голубой для пути
-    const timeLog = `\x1b[90m%s\x1b[0m`; // Серый для времени
+    const pathLog = `\x1b[36m%s\x1b[0m`;
+    const timeLog = `\x1b[90m%s\x1b[0m`;
 
-    console.log(moduleLog, config.module, cleanPath, timestamp);
+    console.log(moduleLog, moduleName);
+    console.log(pathLog, cleanPath);
+    console.log(timeLog, timestamp);
   } else {
-    // На клиенте - каждый элемент на отдельной строке
+    // client: each element on its own line for clarity
     console.log(
-      `%c${config.module}`,
+      `%c${moduleName}`,
       'color: #10b981; font-weight: 600; font-size: 12px;',
     );
     console.log(
@@ -120,7 +134,7 @@ function calculateElapsedTime(): string {
 }
 
 /**
- * Возвращает только путь файла (без "test-errors" и без домена)
+ * Возвращает только относительный путь файла в проекте
  * @param filePath - Полный путь файла
  * @returns Путь без корневой папки и домена
  */
