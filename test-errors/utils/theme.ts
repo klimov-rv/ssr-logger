@@ -31,7 +31,7 @@ export function setTheme(theme: Theme): void {
   }
 
   localStorage.setItem(THEME_STORAGE_KEY, theme);
-  
+
   // Применяем тему к документу
   const html = document.documentElement;
   html.setAttribute('data-theme', theme);

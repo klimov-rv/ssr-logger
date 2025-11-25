@@ -1,5 +1,3 @@
-![Nuxt 4 SSR logger](https://i.imgur.com/cBOUpPP.png)
-
 # Nuxt Minimal Starter
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
